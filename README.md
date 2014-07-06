@@ -14,6 +14,13 @@ func PromptYesNo(msg string, yesIsDefault bool) bool
 
 ```
 /*
+ * Prompts user for input and returns their response
+ */
+func Prompt(msg string) string 
+```
+
+```
+/*
  * Returns the first non-empty, non-blank string value
  * Returns an empty string if none qualify
  */

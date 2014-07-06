@@ -19,6 +19,16 @@ func CoalesceStrings(strs ...string) string {
 }
 
 /*
+ * Prompts user for input and returns their response
+ */
+func Prompt(msg string) string {
+    fmt.Print(msg)
+    inReader := bufio.NewReader(os.Stdin)
+    text, _ := inReader.ReadString('\n')
+    return text
+}
+
+/*
  * Returns true if user answered something that starts with "y".
  * Returns false if user answers something that starts with "n".
  * Returns yesIsDefault if no answer given.
