@@ -21,6 +21,13 @@ func Prompt(msg string) string
 
 ```
 /*
+ * Prompts user for a password that is never echoed back to the screen.
+ */
+func PromptPassword(prompt string) string
+```
+
+```
+/*
  * Returns the first non-empty, non-blank string value
  * Returns an empty string if none qualify
  */

@@ -4,6 +4,8 @@ import "fmt"
 import "strings"
 import "bufio"
 import "os"
+import "log"
+import "code.google.com/p/go.crypto/ssh/terminal"
 
 /*
  * Returns the first non-empty, non-blank string value
@@ -21,8 +23,8 @@ func CoalesceStrings(strs ...string) string {
 /*
  * Prompts user for input and returns their response
  */
-func Prompt(msg string) string {
-    fmt.Print(msg)
+func Prompt(prompt string) string {
+    fmt.Print(prompt)
     inReader := bufio.NewReader(os.Stdin)
     text, _ := inReader.ReadString('\n')
     return text
@@ -33,12 +35,12 @@ func Prompt(msg string) string {
  * Returns false if user answers something that starts with "n".
  * Returns yesIsDefault if no answer given.
  */
-func PromptYesNo(msg string, yesIsDefault bool) bool {
+func PromptYesNo(prompt string, yesIsDefault bool) bool {
     for {
         if yesIsDefault {
-            fmt.Print(msg + " [Yn]: ")
+            fmt.Print(prompt + " [Yn]? ")
         } else {
-            fmt.Print(msg + " [yN]: ")
+            fmt.Print(prompt + " [yN]? ")
         }
 
         // Read input
@@ -58,3 +60,27 @@ func PromptYesNo(msg string, yesIsDefault bool) bool {
     }
 }
 
+/*
+ * Prompts user for a password that is never echoed back to the screen.
+ */
+func PromptPassword(prompt string) string {
+    stdin := 1
+    fmt.Fprintf(os.Stdin, prompt)
+
+    // Get current state of terminal
+//    s, err := terminal.MakeRaw(stdin)
+//    check(err, "making raw terminal, Saving old terminal state")
+//    defer terminal.Restore(stdin, s)
+
+    // Read password from stdin
+    b, err := terminal.ReadPassword(stdin)
+    check(err, "reading from terminal")
+
+    return string(b)
+}
+
+func check(err error, action string) {
+    if err != nil {
+        log.Fatalf("Error %s: %v\n", action, err)
+    }
+}
