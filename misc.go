@@ -8,17 +8,6 @@ import "log"
 import "code.google.com/p/go.crypto/ssh/terminal"
 
 
-// ColesceStrings returns the first non-empty string value
-// or it returns an empty string if none qualify
-func CoalesceStrings(strs ...string) string {
-    for _, s := range strs {
-        if len(s) > 0 {
-           return s
-        }
-    }
-    return ""
-}
-
 // Prompt prompts user for input and returns their response
 func Prompt(prompt string) string {
     fmt.Print(prompt)
@@ -113,6 +102,17 @@ func CompareString(s1, s2 string) int {
     if s1 == s2 { return 0
     } else if s1 < s2 { return -1 }  
     return 1 
+}
+
+// ColesceStrings returns the first non-empty string value
+// or it returns an empty string if none qualify
+func CoalesceStrings(strs ...string) string {
+    for _, s := range strs {
+        if len(s) > 0 {
+           return s
+        }
+    }
+    return ""
 }
 
 // =================
