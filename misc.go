@@ -100,6 +100,24 @@ func PromptPassword(prompt string) string {
     return string(b)
 }
 
+// ContainsString returns true if the given slice contains the given string
+func ContainsString(slice []string, value string) bool {
+    for _, e := range slice { 
+        if value == e { return true } 
+    }
+    return false
+}
+
+// CompareString returns 0 if the strings match, -1 if the first string is less than the second string, and +1 if greater
+func CompareString(s1, s2 string) int {
+    if s1 == s2 { return 0
+    } else if s1 < s2 { return -1 }  
+    return 1 
+}
+
+// =================
+// Private functions
+// =================
 func check(err error, action string) {
     if err != nil {
         log.Fatalf("Error %s: %v\n", action, err)
