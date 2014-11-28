@@ -97,8 +97,8 @@ func ContainsString(slice []string, value string) bool {
     return false
 }
 
-// CompareString returns 0 if the strings match, -1 if the first string is less than the second string, and +1 if greater
-func CompareString(s1, s2 string) int {
+// CompareStrings returns negative when first string is less, positive if more, zero otherwise
+func CompareStrings(s1, s2 string) int {
     if s1 == s2 { return 0
     } else if s1 < s2 { return -1 }  
     return 1 
