@@ -4,6 +4,8 @@ import "fmt"
 import "strings"
 import "bufio"
 import "os"
+import "os/signal"
+import "syscall"
 import "log"
 import "code.google.com/p/go.crypto/ssh/terminal"
 
@@ -78,9 +80,19 @@ func PromptPassword(prompt string) string {
 	fmt.Fprintf(os.Stdin, prompt)
 
 	// Get current state of terminal
-	//s, err := terminal.MakeRaw(stdin)
-	//check(err, "making raw terminal, Saving old terminal state")
-	//defer terminal.Restore(stdin, s)
+	s, err := terminal.MakeRaw(stdin)
+	check(err, "making raw terminal, Saving old terminal state")
+	defer terminal.Restore(stdin, s)
+
+	// trap Ctrl-C and restore screen
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, syscall.SIGTERM)
+	go func() {
+		<-c
+		terminal.Restore(stdin, s)
+		os.Exit(1)
+	}()
 
 	// Read password from stdin
 	b, err := terminal.ReadPassword(stdin)
