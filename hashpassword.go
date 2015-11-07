@@ -2,6 +2,9 @@
 // hashpassword.go wraps the bcrypt password hashing library
 // with base64 encoding so we can deal in strings
 //
+// bcrypt is based on this paper:
+// https://www.usenix.org/legacy/event/usenix99/provos/provos.pdf
+//
 package misc
 
 import (
@@ -11,12 +14,17 @@ import (
 )
 
 const (
-	defaultHashCost = 10 // The cost we want to incur hashing a password
+	defaultHashCost = 12 // The cost we want to incur hashing a password
 )
 
+// HashPasswordDefaultCost hashes the clear-text password and encodes it as base64,
+func HashPasswordDefaultCost(password string) (string, error) {
+	return HashPassword(password, defaultHashCost)
+}
+
 // HashPassword hashes the clear-text password and encodes it as base64,
-func HashPassword(password string) (string, error) {
-	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), defaultHashCost)
+func HashPassword(password string, cost int) (string, error) {
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), cost)
 	if err != nil {
 		return "", err
 	}
