@@ -7,7 +7,7 @@ import "os"
 import "os/signal"
 import "syscall"
 import "log"
-import "code.google.com/p/go.crypto/ssh/terminal"
+import "golang.org/x/crypto/ssh/terminal"
 
 // Prompt prompts user for input and returns their response
 func Prompt(prompt string) string {
